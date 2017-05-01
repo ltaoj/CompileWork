@@ -222,7 +222,6 @@ public class LexicalAnalyzer {
 	 */
 	public void _return(String value, int code){
 		ob_result.add(new TResult(""+code, value));
-		System.out.println("("+code + "," + "\""+value+"\")");
 	}
 //	/**
 //	 * 判断是否进入了新的一行
