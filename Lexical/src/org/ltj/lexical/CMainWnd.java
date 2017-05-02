@@ -1,7 +1,11 @@
 package org.ltj.lexical;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import org.ltj.parser.PredictWnd;
+import org.ltj.parser.SyntacticAnalyzer;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +17,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class CMainWnd implements Initializable{
 	private @FXML Button bt_analyzer;
@@ -35,6 +40,7 @@ public class CMainWnd implements Initializable{
 	private String[] COLUMN_ERROR_CELL_VALUE = {"errorCode","describe","rowNum"};
 	private int[] COLUMN_ERROR_SIZE = {200,550,200};
 
+	private SyntacticAnalyzer synAnalyzer;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ob_result = FXCollections.observableArrayList();
@@ -46,6 +52,13 @@ public class CMainWnd implements Initializable{
 
 		ta_input.setText("int main(){\n\tint a = 1;\n\tint b = a;\n\tif (a >= b){"
 				+ "\n\t\treturn true;\n\t}else{\n\t\treturn false;\n\t}\n\n}");
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				synAnalyzer = new SyntacticAnalyzer();
+			}
+		}).start();
 	}
 
 	private void initTableColumn(TableView table, String[] column_name, String[] cell_value, int[] column_size){
@@ -63,17 +76,30 @@ public class CMainWnd implements Initializable{
 		if(ta_input.getText()==null || ta_input.getText().trim().equals("")){
 			// 源代码框为空，对用户进行输入提示
 		}else{
-			LexicalAnalyzer analyzer = new LexicalAnalyzer(ta_input.getText(), ob_result, ob_error);
-			analyzer.scanAll();
+			LexicalAnalyzer lexAnalyzer = new LexicalAnalyzer(ta_input.getText(), ob_result, ob_error);
+			lexAnalyzer.scanAll();
+
+			ArrayList<String> inputStack = lexAnalyzer.getInputStack();
+
+			SyntacticAnalyzer synAnalyzer = new SyntacticAnalyzer();
+			synAnalyzer.analyze(inputStack);
 		}
 
 	}
+
 	// 单击清空按钮响应事件
 	public void OnClearClicked(){
 		clearText();
 		clearData();
 	}
 
+	public void OnPredictClicked(){
+		try {
+			new PredictWnd(this).start(new Stage());
+		} catch (Exception e) {
+			e.printStackTrace();
+		};
+	}
 	// 清空TableView内容
 	private void clearData(){
 		ob_result.clear();

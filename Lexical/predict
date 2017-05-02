@@ -1,0 +1,440 @@
+S -> Func Funcs <- int
+S -> Func Funcs <- short
+S -> Func Funcs <- long
+S -> Func Funcs <- double
+S -> Func Funcs <- float
+S -> Func Funcs <- char
+S -> Func Funcs <- boolean
+S -> Func Funcs <- void
+S -> Func Funcs <- Object
+Funcs -> Func Funcs <- int
+Funcs -> Func Funcs <- short
+Funcs -> Func Funcs <- long
+Funcs -> Func Funcs <- double
+Funcs -> Func Funcs <- float
+Funcs -> Func Funcs <- char
+Funcs -> Func Funcs <- boolean
+Funcs -> Func Funcs <- void
+Funcs -> Func Funcs <- Object
+Funcs -> ~ <- #
+Func -> ValueType Id ( Args ) FuncBody <- int
+Func -> ValueType Id ( Args ) FuncBody <- short
+Func -> ValueType Id ( Args ) FuncBody <- long
+Func -> ValueType Id ( Args ) FuncBody <- double
+Func -> ValueType Id ( Args ) FuncBody <- float
+Func -> ValueType Id ( Args ) FuncBody <- char
+Func -> ValueType Id ( Args ) FuncBody <- boolean
+Func -> ValueType Id ( Args ) FuncBody <- void
+Func -> ValueType Id ( Args ) FuncBody <- Object
+ValueType -> int <- int
+ValueType -> short <- short
+ValueType -> long <- long
+ValueType -> double <- double
+ValueType -> float <- float
+ValueType -> char <- char
+ValueType -> boolean <- boolean
+ValueType -> void <- void
+ValueType -> Object <- Object
+Args -> ValueType Id Arg <- int
+Args -> ValueType Id Arg <- short
+Args -> ValueType Id Arg <- long
+Args -> ValueType Id Arg <- double
+Args -> ValueType Id Arg <- float
+Args -> ValueType Id Arg <- char
+Args -> ValueType Id Arg <- boolean
+Args -> ValueType Id Arg <- void
+Args -> ValueType Id Arg <- Object
+Args -> ~ <- )
+Args -> ~ <- ;
+Args -> ~ <- Block;
+Arg -> , ValueType Id Arg <- ,
+Arg -> ~ <- )
+Arg -> ~ <- ;
+Arg -> ~ <- Block;
+FuncBody -> ; <- ;
+FuncBody -> Block; <- Block;
+Block -> { DefineStmts Stmts } <- {
+DefineStmts -> DefineStmt DefineStmts <- int
+DefineStmts -> DefineStmt DefineStmts <- short
+DefineStmts -> DefineStmt DefineStmts <- long
+DefineStmts -> DefineStmt DefineStmts <- double
+DefineStmts -> DefineStmt DefineStmts <- float
+DefineStmts -> DefineStmt DefineStmts <- char
+DefineStmts -> DefineStmt DefineStmts <- boolean
+DefineStmts -> DefineStmt DefineStmts <- void
+DefineStmts -> DefineStmt DefineStmts <- Object
+DefineStmts -> ~ <- continue
+DefineStmts -> ~ <- break
+DefineStmts -> ~ <- return
+DefineStmts -> ~ <- while
+DefineStmts -> ~ <- do
+DefineStmts -> ~ <- if
+DefineStmts -> ~ <- switch
+DefineStmts -> ~ <- (
+DefineStmts -> ~ <- Id
+DefineStmts -> ~ <- FLOAT
+DefineStmts -> ~ <- CHAR
+DefineStmts -> ~ <- STR
+DefineStmts -> ~ <- INT10
+DefineStmts -> ~ <- INT8
+DefineStmts -> ~ <- INT16
+DefineStmts -> ~ <- }
+DefineStmt -> ValueType Id Init Vars <- int
+DefineStmt -> ValueType Id Init Vars <- short
+DefineStmt -> ValueType Id Init Vars <- long
+DefineStmt -> ValueType Id Init Vars <- double
+DefineStmt -> ValueType Id Init Vars <- float
+DefineStmt -> ValueType Id Init Vars <- char
+DefineStmt -> ValueType Id Init Vars <- boolean
+DefineStmt -> ValueType Id Init Vars <- void
+DefineStmt -> ValueType Id Init Vars <- Object
+Init -> = Expression <- =
+Init -> ~ <- ,
+Init -> ~ <- int
+Init -> ~ <- short
+Init -> ~ <- long
+Init -> ~ <- double
+Init -> ~ <- float
+Init -> ~ <- char
+Init -> ~ <- boolean
+Init -> ~ <- void
+Init -> ~ <- Object
+Init -> ~ <- continue
+Init -> ~ <- break
+Init -> ~ <- return
+Init -> ~ <- while
+Init -> ~ <- do
+Init -> ~ <- if
+Init -> ~ <- switch
+Init -> ~ <- (
+Init -> ~ <- Id
+Init -> ~ <- FLOAT
+Init -> ~ <- CHAR
+Init -> ~ <- STR
+Init -> ~ <- INT10
+Init -> ~ <- INT8
+Init -> ~ <- INT16
+Init -> ~ <- }
+Vars -> , Id Init Vars <- ,
+Vars -> ~ <- int
+Vars -> ~ <- short
+Vars -> ~ <- long
+Vars -> ~ <- double
+Vars -> ~ <- float
+Vars -> ~ <- char
+Vars -> ~ <- boolean
+Vars -> ~ <- void
+Vars -> ~ <- Object
+Vars -> ~ <- continue
+Vars -> ~ <- break
+Vars -> ~ <- return
+Vars -> ~ <- while
+Vars -> ~ <- do
+Vars -> ~ <- if
+Vars -> ~ <- switch
+Vars -> ~ <- (
+Vars -> ~ <- Id
+Vars -> ~ <- FLOAT
+Vars -> ~ <- CHAR
+Vars -> ~ <- STR
+Vars -> ~ <- INT10
+Vars -> ~ <- INT8
+Vars -> ~ <- INT16
+Vars -> ~ <- }
+Stmts -> Stmt Stmts <- continue
+Stmts -> Stmt Stmts <- break
+Stmts -> Stmt Stmts <- return
+Stmts -> Stmt Stmts <- while
+Stmts -> Stmt Stmts <- do
+Stmts -> Stmt Stmts <- if
+Stmts -> Stmt Stmts <- switch
+Stmts -> Stmt Stmts <- (
+Stmts -> Stmt Stmts <- Id
+Stmts -> Stmt Stmts <- FLOAT
+Stmts -> Stmt Stmts <- CHAR
+Stmts -> Stmt Stmts <- STR
+Stmts -> Stmt Stmts <- INT10
+Stmts -> Stmt Stmts <- INT8
+Stmts -> Stmt Stmts <- INT16
+Stmts -> ~ <- }
+Stmt -> AssignStmt <- (
+Stmt -> AssignStmt <- Id
+Stmt -> AssignStmt <- FLOAT
+Stmt -> AssignStmt <- CHAR
+Stmt -> AssignStmt <- STR
+Stmt -> AssignStmt <- INT10
+Stmt -> AssignStmt <- INT8
+Stmt -> AssignStmt <- INT16
+Stmt -> JumpStmt <- continue
+Stmt -> JumpStmt <- break
+Stmt -> JumpStmt <- return
+Stmt -> LoopStmt <- while
+Stmt -> LoopStmt <- do
+Stmt -> BranchStmt <- if
+Stmt -> BranchStmt <- switch
+AssignStmt -> Expression ; <- (
+AssignStmt -> Expression ; <- Id
+AssignStmt -> Expression ; <- FLOAT
+AssignStmt -> Expression ; <- CHAR
+AssignStmt -> Expression ; <- STR
+AssignStmt -> Expression ; <- INT10
+AssignStmt -> Expression ; <- INT8
+AssignStmt -> Expression ; <- INT16
+JumpStmt -> continue ; <- continue
+JumpStmt -> break ; <- break
+JumpStmt -> return ReturnValue ; <- return
+LoopStmt -> while ( LogicalExpression ) Block <- while
+LoopStmt -> do Block while ( LogicalExpression ) ; <- do
+BranchStmt -> if ( LogicalExpression ) Block Result <- if
+BranchStmt -> switch ( Id ) { CaseStmt CaseStmts DefaultStmt } <- switch
+LogicalExpression -> true <- true
+LogicalExpression -> false <- false
+Result -> else Block <- else
+CaseStmts -> CaseStmt CaseStmts <- case
+CaseStmts -> ~ <- default
+CaseStmts -> ~ <- }
+CaseStmt -> case Const : Block <- case
+DefaultStmt -> default : Block <- default
+ReturnValue -> Expression <- (
+ReturnValue -> Expression <- Id
+ReturnValue -> Expression <- FLOAT
+ReturnValue -> Expression <- CHAR
+ReturnValue -> Expression <- STR
+ReturnValue -> Expression <- INT10
+ReturnValue -> Expression <- INT8
+ReturnValue -> Expression <- INT16
+ReturnValue -> ~ <- ;
+ReturnValue -> ~ <- ,
+ReturnValue -> ~ <- )
+Expression -> Value Operation <- (
+Expression -> Value Operation <- Id
+Expression -> Value Operation <- FLOAT
+Expression -> Value Operation <- CHAR
+Expression -> Value Operation <- STR
+Expression -> Value Operation <- INT10
+Expression -> Value Operation <- INT8
+Expression -> Value Operation <- INT16
+Operation -> CompareOperator Value <- ==
+Operation -> CompareOperator Value <- !=
+Operation -> CompareOperator Value <- <=
+Operation -> CompareOperator Value <- >=
+Operation -> CompareOperator Value <- >
+Operation -> EqualOperator Value <- =
+Operation -> EqualOperator Value <- +=
+Operation -> EqualOperator Value <- -=
+Operation -> EqualOperator Value <- /=
+Operation -> EqualOperator Value <- %=
+Operation -> EqualOperator Value <- *=
+Operation -> ~ <- ,
+Operation -> ~ <- int
+Operation -> ~ <- short
+Operation -> ~ <- long
+Operation -> ~ <- double
+Operation -> ~ <- float
+Operation -> ~ <- char
+Operation -> ~ <- boolean
+Operation -> ~ <- void
+Operation -> ~ <- Object
+Operation -> ~ <- continue
+Operation -> ~ <- break
+Operation -> ~ <- return
+Operation -> ~ <- while
+Operation -> ~ <- do
+Operation -> ~ <- if
+Operation -> ~ <- switch
+Operation -> ~ <- (
+Operation -> ~ <- Id
+Operation -> ~ <- FLOAT
+Operation -> ~ <- CHAR
+Operation -> ~ <- STR
+Operation -> ~ <- INT10
+Operation -> ~ <- INT8
+Operation -> ~ <- INT16
+Operation -> ~ <- }
+Operation -> ~ <- ;
+Operation -> ~ <- )
+CompareOperator -> == <- ==
+CompareOperator -> != <- !=
+CompareOperator -> <= <- <=
+CompareOperator -> >= <- >=
+CompereOperator -> < <- <
+CompareOperator -> > <- >
+EqualOperator -> = <- =
+EqualOperator -> += <- +=
+EqualOperator -> -= <- -=
+EqualOperator -> /= <- /=
+EqualOperator -> %= <- %=
+EqualOperator -> *= <- *=
+Value -> Item Value' <- (
+Value -> Item Value' <- Id
+Value -> Item Value' <- FLOAT
+Value -> Item Value' <- CHAR
+Value -> Item Value' <- STR
+Value -> Item Value' <- INT10
+Value -> Item Value' <- INT8
+Value -> Item Value' <- INT16
+Value' -> + Item Value' <- +
+Value' -> - Item Value' <- -
+Value' -> ~ <- ==
+Value' -> ~ <- !=
+Value' -> ~ <- <=
+Value' -> ~ <- >=
+Value' -> ~ <- >
+Value' -> ~ <- =
+Value' -> ~ <- +=
+Value' -> ~ <- -=
+Value' -> ~ <- /=
+Value' -> ~ <- %=
+Value' -> ~ <- *=
+Value' -> ~ <- ,
+Value' -> ~ <- int
+Value' -> ~ <- short
+Value' -> ~ <- long
+Value' -> ~ <- double
+Value' -> ~ <- float
+Value' -> ~ <- char
+Value' -> ~ <- boolean
+Value' -> ~ <- void
+Value' -> ~ <- Object
+Value' -> ~ <- continue
+Value' -> ~ <- break
+Value' -> ~ <- return
+Value' -> ~ <- while
+Value' -> ~ <- do
+Value' -> ~ <- if
+Value' -> ~ <- switch
+Value' -> ~ <- (
+Value' -> ~ <- Id
+Value' -> ~ <- FLOAT
+Value' -> ~ <- CHAR
+Value' -> ~ <- STR
+Value' -> ~ <- INT10
+Value' -> ~ <- INT8
+Value' -> ~ <- INT16
+Value' -> ~ <- }
+Value' -> ~ <- ;
+Value' -> ~ <- )
+Item -> Factor Item' <- (
+Item -> Factor Item' <- Id
+Item -> Factor Item' <- FLOAT
+Item -> Factor Item' <- CHAR
+Item -> Factor Item' <- STR
+Item -> Factor Item' <- INT10
+Item -> Factor Item' <- INT8
+Item -> Factor Item' <- INT16
+Item' -> * Factor Item' <- *
+Item' -> / Factor Item' <- /
+Item' -> % Factor Item' <- %
+Item' -> ~ <- +
+Item' -> ~ <- -
+Item' -> ~ <- ==
+Item' -> ~ <- !=
+Item' -> ~ <- <=
+Item' -> ~ <- >=
+Item' -> ~ <- >
+Item' -> ~ <- =
+Item' -> ~ <- +=
+Item' -> ~ <- -=
+Item' -> ~ <- /=
+Item' -> ~ <- %=
+Item' -> ~ <- *=
+Item' -> ~ <- ,
+Item' -> ~ <- int
+Item' -> ~ <- short
+Item' -> ~ <- long
+Item' -> ~ <- double
+Item' -> ~ <- float
+Item' -> ~ <- char
+Item' -> ~ <- boolean
+Item' -> ~ <- void
+Item' -> ~ <- Object
+Item' -> ~ <- continue
+Item' -> ~ <- break
+Item' -> ~ <- return
+Item' -> ~ <- while
+Item' -> ~ <- do
+Item' -> ~ <- if
+Item' -> ~ <- switch
+Item' -> ~ <- (
+Item' -> ~ <- Id
+Item' -> ~ <- FLOAT
+Item' -> ~ <- CHAR
+Item' -> ~ <- STR
+Item' -> ~ <- INT10
+Item' -> ~ <- INT8
+Item' -> ~ <- INT16
+Item' -> ~ <- }
+Item' -> ~ <- ;
+Item' -> ~ <- )
+Factor -> ( Value ) <- (
+Factor -> Id CallFunc <- Id
+Factor -> Const <- FLOAT
+Factor -> Const <- CHAR
+Factor -> Const <- STR
+Factor -> Const <- INT10
+Factor -> Const <- INT8
+Factor -> Const <- INT16
+CallFunc -> ( Es ) <- (
+CallFunc -> ~ <- *
+CallFunc -> ~ <- /
+CallFunc -> ~ <- %
+CallFunc -> ~ <- +
+CallFunc -> ~ <- -
+CallFunc -> ~ <- ==
+CallFunc -> ~ <- !=
+CallFunc -> ~ <- <=
+CallFunc -> ~ <- >=
+CallFunc -> ~ <- >
+CallFunc -> ~ <- =
+CallFunc -> ~ <- +=
+CallFunc -> ~ <- -=
+CallFunc -> ~ <- /=
+CallFunc -> ~ <- %=
+CallFunc -> ~ <- *=
+CallFunc -> ~ <- ,
+CallFunc -> ~ <- int
+CallFunc -> ~ <- short
+CallFunc -> ~ <- long
+CallFunc -> ~ <- double
+CallFunc -> ~ <- float
+CallFunc -> ~ <- char
+CallFunc -> ~ <- boolean
+CallFunc -> ~ <- void
+CallFunc -> ~ <- Object
+CallFunc -> ~ <- continue
+CallFunc -> ~ <- break
+CallFunc -> ~ <- return
+CallFunc -> ~ <- while
+CallFunc -> ~ <- do
+CallFunc -> ~ <- if
+CallFunc -> ~ <- switch
+CallFunc -> ~ <- (
+CallFunc -> ~ <- Id
+CallFunc -> ~ <- FLOAT
+CallFunc -> ~ <- CHAR
+CallFunc -> ~ <- STR
+CallFunc -> ~ <- INT10
+CallFunc -> ~ <- INT8
+CallFunc -> ~ <- INT16
+CallFunc -> ~ <- }
+CallFunc -> ~ <- ;
+CallFunc -> ~ <- )
+Es -> ReturnValue isnull_es <- (
+Es -> ReturnValue isnull_es <- Id
+Es -> ReturnValue isnull_es <- FLOAT
+Es -> ReturnValue isnull_es <- CHAR
+Es -> ReturnValue isnull_es <- STR
+Es -> ReturnValue isnull_es <- INT10
+Es -> ReturnValue isnull_es <- INT8
+Es -> ReturnValue isnull_es <- INT16
+isnull_es -> , ReturnValue isnull_es <- ,
+isnull_es -> ~ <- )
+Const -> num_const <- INT10
+Const -> num_const <- INT8
+Const -> num_const <- INT16
+Const -> FLOAT <- FLOAT
+Const -> CHAR <- CHAR
+Const -> STR <- STR
+num_const -> INT10 <- INT10
+num_const -> INT8 <- INT8
+num_const -> INT16 <- INT16

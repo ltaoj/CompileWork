@@ -1,5 +1,7 @@
 package org.ltj.lexical;
 
+import java.util.ArrayList;
+
 import javafx.collections.ObservableList;
 
 /**
@@ -45,18 +47,22 @@ public class LexicalAnalyzer {
 	 * 错误列表
 	 */
 	private ObservableList ob_error;
+	/**
+	 * 源程序的单词栈
+	 */
+	private ArrayList<String> inputStack;
 
 	private static int $KEY_WORD = 1;// 关键字
-	private static int $FLAG_CH = 2;// 标识符
-	private static int $UNSIGNED_INT = 3;// 无符号常整形数
+	private static int $ID = 2;// 标识符
+	private static int $INT10 = 3;// 无符号常整形数
 	private static int $OPERATOR = 4;// 运算符
 	private static int $SINGLE_SEPERATOR = 5;// 单界分隔符
 	private static int $DOUBLE_SEPERATOR = 6;// 双界分隔符
 
 	private static String[] KEY_WORDS = {"if", "for", "while", "do",
-			"return","break","continue", "void","main","int","double","float",
-			"char","boolean","long","String","if","else","class", "public",
-			"private","protected","static"};// 保留字
+			"return","break","continue", "void","int","double","float",
+			"char","boolean","long","short","String","if","else","class", "public",
+			"private","protected","static","true","false"};// 保留字
 	private static char[] OPERATORS = {'+','-','*','/','=','<','%'};// 运算符
 	private static char[] SINGLE_SEPERATORS = {',',';','.'};// 单界分隔符
 	private static char[] DOUBLE_SEPERATORS = {'[',']','{','}','(',')','\'','\"'};// 双界分隔符
@@ -91,7 +97,7 @@ public class LexicalAnalyzer {
 				getChar();
 			}
 			retract();
-			_return(strToken,$UNSIGNED_INT);
+			_return(strToken,$INT10);
 		}else if(ch == '!'||ch == '<'||ch == '>'){
 			concat();
 			getChar();
@@ -213,7 +219,7 @@ public class LexicalAnalyzer {
 				return $KEY_WORD;
 			}
 		}
-		return $FLAG_CH;
+		return $ID;
 	}
 	/**
 	 * 打印code-value
@@ -222,6 +228,17 @@ public class LexicalAnalyzer {
 	 */
 	public void _return(String value, int code){
 		ob_result.add(new TResult(""+code, value));
+		switch (code) {
+		case 2:// 如果为标识符
+			inputStack.add("Id");
+			break;
+		case 3:// 为十进制整数
+			inputStack.add("INT10");
+			break;
+		default:
+			inputStack.add(value);
+			break;
+		}
 	}
 //	/**
 //	 * 判断是否进入了新的一行
@@ -268,8 +285,14 @@ public class LexicalAnalyzer {
 		this.ob_result = ob_result;
 		this.ob_error = ob_error;
 		sourceLength = sourceStr.length();
+		inputStack = new ArrayList<>();
 	}
-
-
+	/**
+	 * 返回输入的符号栈
+	 * @return
+	 */
+	public ArrayList<String> getInputStack() {
+		return inputStack;
+	}
 
 }

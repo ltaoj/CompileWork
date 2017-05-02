@@ -42,7 +42,7 @@ public class SyntacticAnalyzer {
 	 */
 	private HashMap<String, ArrayList<String>> mFollow;
 	private String inputFileName = "production";
-	private String outputFileName;
+	private String outputFileName = "predict";
 	public SyntacticAnalyzer() {
 		mProductions = new ArrayList<>();
 		mTerminals = new ArrayList<>();
@@ -59,6 +59,8 @@ public class SyntacticAnalyzer {
 		computeFirst();
 		// 计算出follow集
 		computeFollow();
+		// 填充产生式可以接受的输入字符
+		fillAccCharactor();
 		// 产生预测分析结果
 		generatePredict();
 
@@ -193,7 +195,7 @@ public class SyntacticAnalyzer {
 			mFollow.put(mNonTerminals.get(i), follows);
 		}
 		// 将#添加到文法开始符号的folow集
-		mFollow.get("E").add("#");
+		mFollow.get("S").add("#");
 		boolean flag;
 		while(true){
 			flag = true;
@@ -208,7 +210,6 @@ public class SyntacticAnalyzer {
 					if(mNonTerminals.contains(rights[j])){
 						for(int k = j + 1;k < rights.length;k++){
 							for(int m = 0;m < mFirst.get(rights[k]).size();m++){
-								System.out.println(rights[j] +" 1 " + mFirst.get(rights[k]) + " " + mFollow.get(rights[j]));
 								if(!addToFollow(rights[j], mFirst.get(rights[k]).get(m))){
 									continue;
 								}
@@ -217,7 +218,6 @@ public class SyntacticAnalyzer {
 							if(mFirst.get(rights[k]).contains("~")){
 								if(k == rights.length-1){
 									for(int m = 0;m < mFollow.get(left).size();m++){
-										System.out.println(rights[j] +" 2 " + mFollow.get(left) + " " + mFollow.get(rights[j]));
 										if(!addToFollow(rights[j], mFollow.get(left).get(m)))
 											continue;
 										flag = false;
@@ -227,7 +227,6 @@ public class SyntacticAnalyzer {
 						}
 						if(j == rights.length - 1){
 							for(int m = 0;m < mFollow.get(left).size();m++){
-								System.out.println(rights[j] +" 3 " + mFollow.get(left) + " " + mFollow.get(rights[j]));
 								if(!addToFollow(rights[j], mFollow.get(left).get(m)))
 									continue;
 								flag = false;
@@ -250,12 +249,79 @@ public class SyntacticAnalyzer {
 		mFollow.get(nonTerminal).add(sign);
 		return true;
 	}
-
+	/**
+	 * 填充产生式可以接受的输入字符
+	 */
+	private void fillAccCharactor() {
+		boolean flag = true;
+		String left;
+		String[] rights;
+		for(int i = 0;i < mProductions.size();i++){
+			left = mProductions.get(i).getLeftSign();
+			rights = mProductions.get(i).getRights();
+			// 产生式所有右部符号的first集都是可接受的输入字符
+			for(int j = 0;j < rights.length;j++){
+				if(isNullChar(rights[j])){
+					for(int k = 0;k < mFollow.get(left).size();k++){
+						addToAccCharactor(i, mFollow.get(left).get(k));
+					}
+				}else{
+					for(int k = 0;k < mFirst.get(rights[j]).size();k++){
+						addToAccCharactor(i, mFirst.get(rights[j]).get(k));
+					}
+					if(!mFirst.get(rights[j]).contains("~")){
+						flag = false;
+					}
+				}
+				if(!flag){
+					break;
+				}
+			}
+		}
+	}
+	/**
+	 * 将符号添加到第i个产生式的可输入字符
+	 * @param index
+	 * @param sign
+	 * @return
+	 */
+	private boolean addToAccCharactor(int index, String sign){
+		if(isNullChar(sign) || mProductions.get(index).getmAccCharacters().contains(sign)){
+			return false;
+		}
+		mProductions.get(index).getmAccCharacters().add(sign);
+		return true;
+	}
 	/**
 	 * 产生预测分析表
 	 */
 	private void generatePredict() {
-
+		try {
+			File file = new File(outputFileName);
+			if(!file.exists()){
+				file.createNewFile();
+			}
+			RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
+			String left;
+			String[] rights;
+			String line="";
+			for(int i = 0;i < mProductions.size();i++){
+				left = mProductions.get(i).getLeftSign();
+				rights = mProductions.get(i).getRights();
+				line = left + " -> ";
+				for(int j = 0;j < rights.length;j++){
+					line += rights[j] + " ";
+				}
+				String prefix = line;
+				for(int k = 0;k < mProductions.get(i).getmAccCharacters().size();k++){
+					line = prefix + "<- " + mProductions.get(i).getmAccCharacters().get(k) + "\n";
+					randomAccessFile.writeBytes(line);
+//					System.out.println(line);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * 判断符号是否是终结符
@@ -273,30 +339,53 @@ public class SyntacticAnalyzer {
 	private boolean isNonTerminal(String sign){
 		return mNonTerminals.contains(sign);
 	}
-
+	/**
+	 * 判断一个字符是否为控制符s
+	 * @param sign
+	 * @return
+	 */
 	private boolean isNullChar(String sign){
 		return sign.equals("~");
 	}
-	void printFo(){
-		System.out.println("keyset:" + mFollow.keySet());
-		System.out.println("valueset:" + mFollow.values());
+	/**
+	 * 分析源程序是否正确
+	 * @param inputStack 输入的符号栈
+	 */
+	public void analyze(ArrayList<String> inputStack){
+		// 分析栈
+		ArrayList<String> inferStack = new ArrayList<>();
+		inferStack.add("#");
+		inferStack.add("S");
 	}
-	void printF(){
-		System.out.println("keyset:" + mFirst.keySet());
-
-		System.out.println("valueset:" + mFirst.values());
-	}
-	void printT(){
-		System.out.println("terminals:" + mTerminals);
-	}
-	void printN(){
-		System.out.println("non:" + mNonTerminals);
-	}
-	public static void main(String[] args){
-		SyntacticAnalyzer sa = new SyntacticAnalyzer();
-		sa.printN();
-		sa.printT();
-		sa.printF();
-		sa.printFo();
-	}
+//	void printFo(){
+//		System.out.println("keyset:" + mFollow.keySet());
+//		System.out.println("valueset:" + mFollow.values());
+//	}
+//	void printF(){
+//		System.out.println("keyset:" + mFirst.keySet());
+//
+//		System.out.println("valueset:" + mFirst.values());
+//	}
+//	void printT(){
+//		System.out.println("terminals:" + mTerminals);
+//	}
+//	void printN(){
+//		System.out.println("non:" + mNonTerminals);
+//	}
+//	void printA(){
+//		int count = 0;
+//		for(int i =0;i < mProductions.size();i++){
+//			count+=mProductions.get(i).getmAccCharacters().size();
+//			System.out.println(mProductions.get(i).getmAccCharacters());
+//		}
+//		System.out.println(count);
+//	}
+//	public static void main(String[] args){
+//		SyntacticAnalyzer sa = new SyntacticAnalyzer();
+//		sa.printN();
+//		sa.printT();
+//		sa.printF();
+//		sa.printFo();
+//		sa.printA();
+//	}
 }
