@@ -41,6 +41,10 @@ public class SyntacticAnalyzer {
 	 * follow集
 	 */
 	private HashMap<String, ArrayList<String>> mFollow;
+	/**
+	 * 预测分析表
+	 */
+	private HashMap<String, String> predictTable;
 	private String inputFileName = "production";
 	private String outputFileName = "predict";
 	public SyntacticAnalyzer() {
@@ -348,14 +352,75 @@ public class SyntacticAnalyzer {
 		return sign.equals("~");
 	}
 	/**
+	 * 从预测分析表文件中加载
+	 * 存放在HashMap中，key：String(left + "-" + symbol), value: String(rights)
+	 */
+	private void loadTable(){
+		String left;
+		String symbol;
+		String rights;
+		String line;
+		predictTable = new HashMap<>();
+		try {
+			File file = new File(outputFileName);
+			RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
+			while((line = randomAccessFile.readLine())!=null){
+				left = line.split("->")[0].trim();
+				rights = line.split("->")[1].split("<-")[0].trim();
+				symbol = line.split("->")[1].split("<-")[1].trim();
+				predictTable.put(left + "-" + symbol, rights);
+			}
+			randomAccessFile.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/**
 	 * 分析源程序是否正确
 	 * @param inputStack 输入的符号栈
 	 */
 	public void analyze(ArrayList<String> inputStack){
+		loadTable();
 		// 分析栈
 		ArrayList<String> inferStack = new ArrayList<>();
-		inferStack.add("#");
-		inferStack.add("S");
+		System.out.println(inputStack);
+		inferStack.add(0, "#");
+		inferStack.add(0, "S");
+		boolean flag = false;
+		for(int i = 0;i < inputStack.size();i++){
+			String X = inferStack.get(0);
+			if(X.equals(inputStack.get(i))){
+				if(inputStack.get(i).equals("#")){
+					flag = true;
+					System.out.println("1" + inferStack);
+					break;
+				}
+				// 将栈顶符号移除，输入符号指向下一个
+				inferStack.remove(0);
+				X = inferStack.get(0);
+				System.out.println("2" + inferStack + "symbol" + inputStack.get(i));
+				continue;
+			}else if(isNonTerminal(X)){
+				if(predictTable.containsKey(X + "-" + inputStack.get(i))){
+					System.out.println("symbol:" +inputStack.get(i) +"运用产生式:" + X + "->" + predictTable.get(X + "-" + inputStack.get(i)));
+					// 得到产生式的右部
+					String[] rights = predictTable.get(X + "-" + inputStack.get(i)).trim().split(" ");
+					// 将X移除
+					inferStack.remove(0);
+					X = inferStack.get(0);
+					// 将产生式右部反序压栈
+					for(int j = rights.length - 1;j >= 0;j--){
+						if(rights[j].equals("~"))
+							continue;
+						inferStack.add(0, rights[j]);
+					}
+					System.out.println("3" + inferStack);
+					i--;
+				}else{
+					System.out.println("4" + "出错了" + X + "-" + inputStack.get(i));
+				}
+			}
+		}
 	}
 //	void printFo(){
 //		System.out.println("keyset:" + mFollow.keySet());

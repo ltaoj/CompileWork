@@ -80,7 +80,6 @@ public class CMainWnd implements Initializable{
 			lexAnalyzer.scanAll();
 
 			ArrayList<String> inputStack = lexAnalyzer.getInputStack();
-
 			SyntacticAnalyzer synAnalyzer = new SyntacticAnalyzer();
 			synAnalyzer.analyze(inputStack);
 		}

@@ -15,12 +15,11 @@ Args -> ValueType Id Arg
 Args -> ~
 Arg -> , ValueType Id Arg
 Arg -> ~
-FuncBody -> ;
-FuncBody -> Block;
+FuncBody -> Block
 Block -> { DefineStmts Stmts }
 DefineStmts -> DefineStmt DefineStmts
 DefineStmts -> ~
-DefineStmt -> ValueType Id Init Vars
+DefineStmt -> ValueType Id Init Vars ;
 Init -> = Expression
 Init -> ~
 Vars -> , Id Init Vars

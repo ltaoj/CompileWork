@@ -71,6 +71,7 @@ public class LexicalAnalyzer {
 		do{
 			scanner();
 		}while(pointer < sourceLength);
+		inputStack.add("#");
 	}
 	/**
 	 * É¨Ãè
