@@ -8,13 +8,13 @@ import java.util.HashMap;
 
 /**
  * 语法分析器
- * 分析Java源程序语法
+ * 分析C++源程序语法
  * 分析语法通过3种算法实现
  * 1.预测分析法
  * 2.算符优先法
  * 3.LR(1)分析法
  *
- * 该类主要是为了构造预测分析表
+ * 该类主要是为了构造预测分析表，采用算法1
  * 输入：产生式 productions.txt
  * 输出：预测分析表 predict.txt
  * @author ltaoj
@@ -323,6 +323,7 @@ public class SyntacticAnalyzer {
 //					System.out.println(line);
 				}
 			}
+			randomAccessFile.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

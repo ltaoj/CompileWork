@@ -50,7 +50,7 @@ public class CMainWnd implements Initializable{
 		table_result.setItems(ob_result);
 		table_error.setItems(ob_error);
 
-		ta_input.setText("int main(){\n\tint a = 1;\n\tint b = a;\n\tif (a >= b){"
+		ta_input.setText("int main(){\n\tint a = 1;\n\tint b = a;\n\tif (true){"
 				+ "\n\t\treturn true;\n\t}else{\n\t\treturn false;\n\t}\n\n}");
 		new Thread(new Runnable() {
 
