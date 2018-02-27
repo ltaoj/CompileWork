@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ltj.lexical.CMainWnd">
+   <right>
+      <ScrollPane fx:id="sp_result" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="25.0" left="25.0" top="25.0" />
+         </BorderPane.margin>
+         <content>
+            <TableView fx:id="table_result" prefHeight="200.0" prefWidth="200.0" />
+         </content>
+      </ScrollPane>
+   </right>
+   <bottom>
+      <ScrollPane fx:id="sp_error" fitToHeight="true" fitToWidth="true" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <content>
+            <TableView fx:id="table_error" prefHeight="200.0" prefWidth="200.0" />
+         </content>
+      </ScrollPane>
+   </bottom>
+   <top>
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <children>
+            <Button fx:id="bt_predict" mnemonicParsing="false" onMouseClicked="#OnPredictClicked" prefHeight="30.0" prefWidth="80.0" text="语法分析过程" />
+            <Button fx:id="bt_analyzer" mnemonicParsing="false" onMouseClicked="#OnAnalyzerClicked" prefHeight="30.0" prefWidth="80.0" text="词法分析" />
+            <Button fx:id="bt_clear" mnemonicParsing="false" onMouseClicked="#OnClearClicked" prefHeight="30.0" prefWidth="80.0" text="清空" />
+         </children>
+      </HBox>
+   </top>
+   <padding>
+      <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+   </padding>
+   <center>
+      <ScrollPane fx:id="sp_input" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <content>
+            <TextArea fx:id="ta_input" prefHeight="200.0" prefWidth="200.0" />
+         </content>
+         <BorderPane.margin>
+            <Insets bottom="25.0" top="25.0" />
+         </BorderPane.margin>
+      </ScrollPane>
+   </center>
+</BorderPane>
